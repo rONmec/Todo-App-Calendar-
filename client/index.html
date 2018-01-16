@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html ng-app="todoApp">
+
+  <head>
+
+    <title>TodoApp</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.2/moment.js"></script>
+    <script src="https://code.angularjs.org/1.2.24/angular.js"></script>
+    <script type="text/javascript" src="utils/angular-resource.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.1.1/fullcalendar.min.css" />
+    <script src="calendar.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.1.1/fullcalendar.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <script src="app.js"></script>
+  </head>
+
+  <body ng-controller="mainController">
+  <div class="page-header well well-lg">
+    <h1>TodoApp <small>...</small></h1>
+  </div>
+
+  <div class="row">
+  <div class="col-xs-6 col-sm-4"><h3>Current User:<span class="label label-success">UserName</span></h3></div>
+  <div class="col-xs-6 col-sm-4">
+    <h3>
+    <div class="btn-group">
+  <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Users <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu">
+    <li  ng-repeat="x in staticEvents track by $index" >
+      <a ng-click="setCurrentUser(x.title)">{{x.id}}</a>
+    </li>
+    <li role="separator" class="divider"></li>
+    <li><a href="#">All</a></li>
+  </ul>
+</div>
+</h3>
+</div>
+</div>
+
+
+
+    <br><br><br>
+
+    <div ui-calendar="uiConfig.calendar" class="span8 calendar" ng-model="eventSources" calendar="myCalendar"></div>
+  </body>
+
+</html>
