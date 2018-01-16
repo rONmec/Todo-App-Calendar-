@@ -18,6 +18,8 @@ app.use(function(req, res, next) {
     next();
 });
 
+app.use(express.static(__dirname + "/client"));
+
 //get method to get todos
 app.get('/todos', (req, res) => {
     Todo.find().then((todos) => {
@@ -61,10 +63,26 @@ var todo4 = new Todo({
     start: new Date(year, month, 27)
 });
 
+var todo5 = new Todo({
+    id: 'User4',
+    title: 'Complete task 5',
+    start: new Date(year, month, 29),
+    priority: 'medium'
+});
+
+var todo6 = new Todo({
+    id: 'User5',
+    title: 'Complete task 6',
+    start: new Date(year, month, 22),
+    priority: 'high'
+});
+
 todo1.save();
 todo2.save();
 todo3.save();
 todo4.save();
+todo5.save();
+todo6.save();
 
 app.listen(port, () => {
     console.log(`Started up at port ${port}`);
