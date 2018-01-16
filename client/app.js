@@ -4,7 +4,7 @@ var app = angular.module('todoApp', ['ui.calendar', 'ngResource']);
 //to fetch data from the server using $resource
 
 app.factory('todo', function($resource) {
-    return $resource('http://' + 'localhost' + ':3000/todos', null, {
+    return $resource('http://' + 184.72.192.6 + ':3000/todos', null, {
         'update': {
             method: 'PUT'
         }
