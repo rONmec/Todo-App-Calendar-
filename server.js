@@ -1,11 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-var {
-    mongoose
-} = require('./db/mongoose');
-var {
-    Todo
-} = require('./models/todo');
+var {mongoose} = require('./db/mongoose');
+var {Todo} = require('./models/todo');
 
 var app = express();
 const port = process.env.PORT || 3000;
