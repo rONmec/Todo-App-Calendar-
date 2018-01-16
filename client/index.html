@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html ng-app="todoApp">
 
-  <head>
+<head>
 
     <title>TodoApp</title>
 
@@ -17,38 +17,36 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.1.1/fullcalendar.min.js"></script>
     <link rel="stylesheet" href="style.css" />
     <script src="app.js"></script>
-  </head>
+</head>
 
-  <body ng-controller="mainController">
-  <div class="page-header well well-lg">
-    <h1>TodoApp <small>...</small></h1>
-  </div>
+<body ng-controller="mainController">
+    <div class="page-header well well-lg">
+        <h1>TodoApp <small>...</small></h1>
+    </div>
 
-  <div class="row">
-  <div class="col-xs-6 col-sm-4"><h3>Current User:<span class="label label-success">UserName</span></h3></div>
-  <div class="col-xs-6 col-sm-4">
-    <h3>
+    <div class="row">
+        <div class="col-xs-6 col-sm-4">
+            <h3>Current User:<span class="label label-success" ng-model="currentUser">{{currentUser}}</span></h3></div>
+        <div class="col-xs-6 col-sm-4">
+            <h3>
     <div class="btn-group">
   <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     Users <span class="caret"></span>
   </button>
   <ul class="dropdown-menu">
-    <li  ng-repeat="x in staticEvents track by $index" >
-      <a ng-click="setCurrentUser(x.title)">{{x.id}}</a>
+    <li  ng-repeat="x in allTodos track by $index" >
+      <a ng-click="setCurrentUser(x.id)">{{x.id}}</a>
     </li>
-    <li role="separator" class="divider"></li>
-    <li><a href="#">All</a></li>
   </ul>
 </div>
 </h3>
-</div>
-</div>
-
-
-
-    <br><br><br>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
 
     <div ui-calendar="uiConfig.calendar" class="span8 calendar" ng-model="eventSources" calendar="myCalendar"></div>
-  </body>
+</body>
 
 </html>

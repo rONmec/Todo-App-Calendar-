@@ -1,54 +1,72 @@
 // Code goes here
+var app = angular.module('todoApp', ['ui.calendar', 'ngResource']);
 
-var app = angular.module('todoApp', ['ui.calendar','ngResource']);
+//to fetch data from the server using $resource
 
-app.factory('todo', function($resource){
-    return $resource('http://'+'localhost'+':3000/todos', null,  {
-        'update': { method:'PUT' }
+app.factory('todo', function($resource) {
+    return $resource('http://' + 'localhost' + ':3000/todos', null, {
+        'update': {
+            method: 'PUT'
+        }
     });
 });
 
+app.controller('mainController', function($scope, uiCalendarConfig, todo) {
 
-app.controller('mainController', function($scope, $timeout,todo) {
+    $scope.fetchTodos = function() {
+        $scope.todos = todo.query(function(data) {
+            console.log(data);
 
-  $scope.todos = todo.query(function(data){
-    console.log(data);
-  })
+    //for a more effecient approach, this processing should me done on the server side
+            angular.forEach($scope.todos, function(todo, key) {
+                if (todo.priority === 'high') {
+                    todo.backgroundColor = '#ff6666';
+                    todo.borderColor = '#ff4d4d';
+                } else if (todo.priority === 'medium') {
+                    todo.backgroundColor = '#e6e600';
+                    todo.borderColor = '#ffff00';
+                } else {
+                    todo.backgroundColor = '#00aaff';
+                    todo.borderColor = '#33bbff';
+                }
+            });
+        });
+        return $scope.todos;
+    }
 
-  $scope.events = [];
+    //Arrays to facilitate filter operations based on Username
+    $scope.allTodos = [];
+    $scope.filteredTodos = [];
+    $scope.allTodos = $scope.fetchTodos();
+    $scope.filteredTodos = $scope.allTodos;
+    $scope.events = [];
 
-  $scope.staticEvents = $scope.todos;
-  console.log($scope.staticEvents);
+    var defaultUser = 'All';
+    $scope.currentUser = defaultUser;
 
-  var defaultUser = 'All';
-  $scope.currentUser = defaultUser;
+    //Executed when a different user is selected
 
-  $scope.setCurrentuser = function(user){
-    $scope.currentUser = user;
-  };
+    $scope.setCurrentUser = function(user) {
+        $scope.currentUser = user;
+        if ($scope.currentUser == 'All') {
+            console.log('All Users selected');
+        } else {
+            $scope.filteredTodos = [];
+            angular.forEach($scope.allTodos, function(todo, key) {
+                if (todo.id === $scope.currentUser) {
+                    $scope.filteredTodos.push($scope.allTodos[key]);
+                }
+            });
+        }
+        $scope.eventSources[0].splice(0, $scope.eventSources[0].length);
+        angular.forEach($scope.filteredTodos, function(todo, key) {
+            $scope.eventSources[0].push(todo);
+        });
+        //repopulation of todos list since splice is used
+        $scope.allTodos = $scope.fetchTodos();
+    };
 
-  console.log($scope.currentUser);
-
-
-  /*$scope.staticEvents = [
-    {title: 'Static 1', start: new Date(y, m, 1), allDay: true, backgroundColor: '#ff6666',borderColor: '#ff4d4d'},
-    {title: 'Static 2', start: new Date(y, m, 8), allDay: true, backgroundColor: '#ff6666',borderColor: '#ff4d4d'},
-    {title: 'Static 3', start: new Date(y, m, d), allDay: true, backgroundColor: '#ff6666',borderColor: '#ff4d4d'}
-  ];
-
-$scope.staticEvents = [
-  {title: 'Static 1', start: new Date(y, m, 1), allDay: true, backgroundColor: '#e6e600',borderColor: '#ffff00'},
-  {title: 'Static 2', start: new Date(y, m, 8), allDay: true, backgroundColor: '#e6e600',borderColor: '#ffff00'},
-  {title: 'Static 3', start: new Date(y, m, d), allDay: true, backgroundColor: '#e6e600',borderColor: '#ffff00'}
-];
-
-$scope.staticEvents = [
-  {title: 'Static 1', start: new Date(y, m, 1), allDay: true, backgroundColor: '#00aaff',borderColor: '#33bbff'},
-  {title: 'Static 2', start: new Date(y, m, 8), allDay: true, backgroundColor: '#00aaff',borderColor: '#33bbff'},
-  {title: 'Static 3', start: new Date(y, m, d), allDay: true, backgroundColor: '#00aaff',borderColor: '#33bbff'}
-]; */
-
-
-  // Assign the 2 sources to $scope.eventSources for calendar.
-  $scope.eventSources = [$scope.staticEvents, $scope.events];
+    //Passing the event object required by full calendar
+    $scope.events = $scope.filteredTodos;
+    $scope.eventSources = [$scope.events];
 });
